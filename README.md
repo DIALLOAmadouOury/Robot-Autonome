@@ -50,7 +50,7 @@ Software/
 
 ## Contexte du projet
 
-Ce projet a été réalisé **en équipe de 4 étudiants** dans le cadre d’un projet de robotique et de participation à la **Coupe de France de Robotique**.
+Ce projet a été réalisé **en équipe de 6 étudiants** dans le cadre d’un projet de robotique et de participation à la **Coupe de France de Robotique**.
 
 ### Ma contribution
 
