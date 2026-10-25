@@ -14,6 +14,37 @@ Ce n'était pas seulement un projet de programmation : il fallait partir d'un ca
 
 **[Voir le programme principal](Software/Programmation_robot.ino)** · **[Lire le code moteur/PID](Software/Moteurs.cpp)** · **[Explorer les modules embarqués](Software/)**
 
+## Le projet en images
+
+### Sur le terrain : réglages avant un match
+
+![Réglages du robot principal avant un match de la Coupe de France de Robotique 2025](media/reglages_avant_match.webp)
+
+*Réglages et vérifications du robot principal sur l'aire de compétition. Photo fournie pour ce portfolio.*
+
+### Du dimensionnement à la réalisation
+
+| Assemblage du robot principal | Actionneur pour la construction des gradins |
+| :---: | :---: |
+| ![Prototype du robot principal en cours d'intégration mécanique et électronique](media/assemblage_robot_principal.webp) | ![Conception CAO et réalisation du mécanisme de manipulation des gradins](media/actionneur_gradins_conception.webp) |
+| Châssis, électronique, capteurs et mécanismes | Modélisation et intégration d'une pièce de mission |
+
+### PAMIs : assemblage et prototype
+
+![PAMIs en cours de construction et version assemblée avec électronique et commandes](media/pamis_construction_final.webp)
+
+*Deux vues issues du rapport final collectif : intégration des composants et PAMI assemblé.*
+
+### Le robot pendant la compétition
+
+| Vue du terrain | Court extrait animé du match |
+| :---: | :---: |
+| ![Robot principal sur le terrain pendant la compétition](media/robot_en_match.webp) | ![Aperçu animé de la participation à la Coupe de France de Robotique](media/apercu_competition.webp) |
+
+*Images extraites de la séquence vidéo de compétition fournie pour le projet. L'aperçu animé dure environ quatre secondes et ne remplace pas la vidéo intégrale.*
+
+**Origine des visuels :** rapport final de l'équipe (assemblage du robot : p. 10 ; mécanisme des gradins : p. 11 ; PAMIs : p. 17), photo de réglage avant match et vidéo de compétition fournies pour ce dépôt.
+
 ## Ma participation : de la conception aux essais en compétition
 
 J'ai été impliqué dans **les différentes étapes de ce projet collectif**, pas uniquement dans le code. Mon travail a notamment porté sur :
@@ -110,7 +141,7 @@ L'application Arduino publiée gère un **chronomètre interne avec un arrêt vi
 
 ### Photos et vidéo de la compétition
 
-Une **séquence vidéo enregistrée pendant la compétition** et une **photo prise lors des réglages du robot avant un match** pourront compléter cette présentation pour illustrer les essais et l'implication sur le terrain. Elles ne sont pas encore ajoutées au dépôt.
+Les **photos de préparation et de conception** ainsi que des **captures du match** sont maintenant intégrées dans la [galerie du projet](#le-projet-en-images). Un **aperçu animé de quatre secondes** a aussi été réalisé à partir de la vidéo de compétition fournie ; la vidéo complète n'est pas hébergée dans ce dépôt.
 
 ## Organisation du code publié
 
