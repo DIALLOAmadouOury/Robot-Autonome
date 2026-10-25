@@ -99,5 +99,5 @@ Le défi était de faire fonctionner **un système complet**, et pas seulement d
 
 ---
 
-**Coupe de France de Robotique 2025 · CRIG2 · Institut Galilée · Projet réalisé en équipe de six étudiants**  
+**Coupe de France de Robotique 2025 · CRIG1 · Institut Galilée · Projet réalisé en équipe de six étudiants**  
 **Amadou Oury Diallo — Instrumentation et systèmes embarqués**
