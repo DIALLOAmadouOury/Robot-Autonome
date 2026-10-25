@@ -14,12 +14,6 @@ Pour la **Coupe de France de Robotique 2025 — « Robot Rock Tour »**, nous av
 
 Pour y parvenir, nous avons dû réunir **conception mécanique, choix des moteurs, électronique, programmation embarquée, automatique et essais sur le terrain**. C'est cette intégration, du premier dimensionnement jusqu'aux réglages avant match, qui fait l'intérêt du projet.
 
-### Le robot en compétition
-
-![Court aperçu animé du robot pendant la Coupe de France de Robotique 2025](media/apercu_competition.webp)
-
-*Court aperçu de la séquence filmée pendant la compétition.*
-
 ## De la conception au prototype
 
 ### 1. Concevoir la base roulante et choisir la motorisation
