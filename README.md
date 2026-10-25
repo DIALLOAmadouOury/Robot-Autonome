@@ -1,116 +1,133 @@
-# Robot autonome — Coupe de France de Robotique 2024–2025
+# Robot principal et PAMIs — Coupe de France de Robotique 2025
 
-**Robotique mobile · C++ embarqué / Arduino · Asservissement PID · Encodeurs · Interruptions · Capteurs · Actionneurs**
+**Conception mécanique · Dimensionnement et motorisation · C++ embarqué · Arduino · PID et encodeurs · Électronique · Intégration et essais**
 
-## Pourquoi ce projet ?
+## Le projet : concevoir des robots pour une compétition
 
-Dans le cadre de la **Coupe de France de Robotique 2024–2025**, notre équipe de **six étudiants** a travaillé sur un robot capable d'effectuer une série de missions sur un terrain de compétition : **se déplacer jusqu'à différentes zones, réaliser des actions de jeu et gérer un match limité à 95 secondes**.
+Dans le cadre de notre première année de cycle ingénieur à **l'Institut Galilée — Université Sorbonne Paris Nord**, nous avons travaillé à **six étudiants** sur un système robotique pour la **Coupe de France de Robotique 2025 (Eurobot, thème « Robot Rock Tour »)**.
 
-Le défi n'était pas seulement de faire tourner deux moteurs. Il fallait coordonner **déplacements, positionnement, mécanismes, capteurs et temps de match** dans un programme embarqué suffisamment organisé pour pouvoir modifier les parcours et les actions.
+Notre équipe représentait **CRIG2, le club de robotique de l'Institut Galilée** ; le club comptait également une autre équipe engagée dans cette aventure.
 
-Ce dépôt présente la partie logicielle du projet, développée en **C++ avec l'environnement Arduino**, sur une **base roulante différentielle**.
+L'objectif était de **concevoir, fabriquer et programmer un robot principal autonome**, accompagné de **PAMIs** (*Petits Actionneurs Mobiles Indépendants*), pour réaliser des missions sur un terrain de jeu : **déployer une banderole, construire des gradins, positionner des robots sur la scène et rejoindre la zone d'arrivée**.
 
-**[Voir le programme principal](Software/Programmation_robot.ino)** · **[Consulter l'asservissement moteur](Software/Moteurs.cpp)** · **[Explorer le code du robot](Software/)**
+Ce n'était pas seulement un projet de programmation : il fallait partir d'un cahier des charges, **choisir une architecture mécanique, dimensionner les moteurs, intégrer l'électronique et les actionneurs, développer le logiciel embarqué**, puis tester et ajuster les robots dans les conditions de la compétition.
 
-## Ce que le robot devait accomplir
+**[Voir le programme principal](Software/Programmation_robot.ino)** · **[Lire le code moteur/PID](Software/Moteurs.cpp)** · **[Explorer les modules embarqués](Software/)**
 
-Le programme principal organise une succession de phases :
+## Ma participation : de la conception aux essais en compétition
 
-1. **Initialiser le robot** : moteurs, servomoteurs, électroaimants et écran TFT.
-2. **Quitter la zone de départ**, puis exécuter des actions de jeu, notamment le déploiement de la banderole et les déplacements associés à la construction de gradins.
-3. **Tenir compte du chronomètre** : attendre avant la fin du match et préparer le retour.
-4. **Rejoindre la zone d'arrivée** et demander l'arrêt des moteurs en fin de séquence.
+J'ai été impliqué dans **les différentes étapes de ce projet collectif**, pas uniquement dans le code. Mon travail a notamment porté sur :
 
-Cette logique est visible dans [`Programmation_robot.ino`](Software/Programmation_robot.ino). Les déplacements sont écrits sous forme de commandes de haut niveau comme `deplacer_robot(AVANCER, 55)` ou `deplacer_robot(TOURNER_DROITE, 94)`, plutôt que de multiplier directement les commandes de broches dans le programme principal.
+- **L'étude et la conception du robot principal**, avec la comparaison des architectures de bases roulantes, le choix d'une base différentielle, les contraintes de stabilité, d'encombrement et d'implantation des composants ;
+- **Le dimensionnement et le choix des moteurs**, en tenant compte de la masse, des dimensions des roues, de la vitesse recherchée, du couple nécessaire, des encodeurs, du pont en H et de l'alimentation ;
+- **La conception et l'intégration matérielle** : modélisation avec FreeCAD, assemblage du châssis, implantation des capteurs, des actionneurs et de l'électronique ;
+- **Le développement C++ embarqué** : pilotage des moteurs, lecture des encodeurs, correction PID, commandes des actionneurs et séquences de déplacement ;
+- **Les PAMIs**, en participant à la réflexion et à l'intégration du système robotique complet, ainsi qu'aux échanges, réglages et essais avec l'équipe ;
+- **La préparation de la compétition**, avec les ajustements, les vérifications et les réglages du robot avant les matchs.
 
-**Architecture du logiciel :**
+Ce travail a été **réalisé en équipe de six** : les activités de conception, de fabrication et de tests étaient partagées. Le sous-groupe auquel je participais avec **Obed et Sokhna** s'est principalement occupé du **robot principal, de sa base roulante, de la propulsion et de la programmation**. Les PAMIs ont été principalement développés par **Soukayna, Hiba et Ndeye Fatou**, avec des échanges et une intégration à l'échelle de toute l'équipe.
 
-```text
-Séquence de match (Programmation_robot.ino)
-            |
-            +--> Déplacements / trajectoires (Moteurs.cpp)
-            |        +--> PWM des moteurs
-            |        +--> Encodeurs / interruptions
-            |        +--> Correction PID
-            |
-            +--> Actions de jeu (Gradin.cpp)
-            +--> Servomoteurs / banderole (Servos.cpp)
-            +--> Électroaimants (Electroaimant.cpp)
-            +--> Affichage sur écran TFT (TFT.cpp)
+J'ai également assuré une **période de coordination du projet (28 avril – 18 mai 2025)**, dédiée au suivi des améliorations après la revue des projets et à la préparation de la compétition.
 
-Module séparé : mesure ultrasonique / obstacles (Capteurs.cpp)
-```
+## 1. Étude mécanique et choix de la motorisation
 
-## Les choix techniques et ce que j'ai programmé
+Pour que le robot principal puisse se déplacer et manipuler des éléments de jeu, nous avons retenu une **base roulante différentielle** : **deux roues motrices indépendantes** et **quatre roues folles**, sur un châssis pensé pour recevoir les batteries, les cartes électroniques et les mécanismes.
 
-### 1. Déplacement et asservissement de la base roulante
+Le rapport de conception documente une étude préliminaire à partir des hypothèses suivantes :
 
-Le robot utilise **deux moteurs indépendants** et des **encodeurs de roues**. Dans [`Moteurs.cpp`](Software/Moteurs.cpp), les impulsions sont comptées par des routines liées aux interruptions et servent à estimer la distance parcourue par chaque roue.
+| Paramètre de dimensionnement | Valeur étudiée |
+| --- | ---: |
+| Masse de référence du robot | **6 kg** |
+| Diamètre des roues | **6,5 cm** |
+| Vitesse de déplacement visée | **0,24 m/s** |
+| Vitesse de rotation correspondante aux roues | **environ 70,5 tr/min** |
+| Couple par roue estimé à partir de la seule résistance au roulement | **environ 14,3 mN·m** |
+| Encombrement visé du châssis principal | **environ 25 × 25 cm** |
 
-Lors d'un déplacement, le programme compare les deux distances, calcule une correction avec la bibliothèque **PID_v1** et ajuste les commandes PWM des moteurs. L'idée est de **réduire la dérive entre les roues** pour améliorer la tenue d'une trajectoire.
+Cette étude simplifiée a servi de **point de départ au choix de la propulsion** ; elle ne remplace pas un dimensionnement complet prenant en compte l'accélération, les frottements réels, les pertes mécaniques et les marges de couple.
 
-Le code comprend notamment :
+Le choix s'est orienté vers des **motoréducteurs à courant continu 12 V avec encodeurs**, un **driver de moteurs à pont en H** et une commande de vitesse par **PWM**. L'utilisation des encodeurs permet de mesurer le déplacement et de corriger la trajectoire.
 
-- la gestion des encodeurs par `attachInterrupt()` et des compteurs `volatile` ;
-- la conversion **impulsions → tours de roue → distance** ;
-- une correction PID appliquée à l'écart de distance entre roues, avec une période de calcul configurée à **20 ms** dans la bibliothèque ;
-- les commandes de direction et de vitesse pour avancer, reculer ou tourner, avec limitation des valeurs de PWM.
+La réalisation mécanique a mobilisé **FreeCAD**, un châssis en contreplaqué et des pièces fabriquées pour l'intégration des capteurs, de la banderole et des mécanismes de gradins.
 
-**[Lire l'implémentation moteur et PID](Software/Moteurs.cpp)** · [Voir les paramètres mécaniques et gains](Software/Config.h)
+## 2. Développement embarqué : déplacement et asservissement PID
 
-### 2. Détection d'obstacles et interactions avec l'environnement
+L'objectif du logiciel de locomotion est de transformer une instruction comme `deplacer_robot(AVANCER, 55)` en **commandes des deux moteurs avec retour des encodeurs**.
 
-Le module [`Capteurs.cpp`](Software/Capteurs.cpp) implémente la mesure par **capteurs ultrasoniques HC-SR04** : émission de l'impulsion, lecture du temps d'écho, calcul de distance et comparaison à un seuil de proximité. Les capteurs à interroger dépendent du sens de déplacement demandé.
+Dans [`Moteurs.cpp`](Software/Moteurs.cpp), les impulsions des codeurs sont comptées par des **routines d'interruption** (`attachInterrupt()`). Le programme convertit ces impulsions en tours, puis en distances parcourues par les roues.
 
-**Important :** ce module est présent dans les sources, mais la boucle de déplacement principale publiée ne l'appelle pas encore. Il constitue donc une brique logicielle de perception, **pas une preuve d'évitement autonome d'obstacles en fonctionnement**.
+Pendant le déplacement, il compare les distances des roues gauche et droite. La bibliothèque **PID_v1** calcule une correction pour limiter l'écart, et le programme ajuste les commandes **PWM** appliquées aux moteurs.
 
-### 3. Commande des mécanismes et stratégie de match
+**Fonctions et compétences visibles dans le code :**
 
-Les actions de jeu sont découpées en modules :
+- **Interruptions et variables `volatile`** pour la mesure des encodeurs ;
+- **Odométrie élémentaire** à partir de la résolution des codeurs et du périmètre des roues ;
+- **Correction PID** sur l'écart entre roues, avec période configurée à **20 ms** ;
+- **Commande PWM et direction** des deux moteurs ;
+- **Organisation modulaire en C++** avec fichiers `.h` / `.cpp` et centralisation des paramètres dans [`Config.h`](Software/Config.h).
 
-- [`Gradin.cpp`](Software/Gradin.cpp) : séquences de déplacements pour l'approche des zones et le positionnement en fonction du côté du terrain ;
-- [`Servos.cpp`](Software/Servos.cpp) : commande de deux servomoteurs et séquence de déploiement de la banderole ;
-- [`Electroaimant.cpp`](Software/Electroaimant.cpp) : initialisation et commande des sorties d'électroaimants pour la préhension ;
-- [`TFT.cpp`](Software/TFT.cpp) : affichage graphique de fin de match sur un écran **ST7735**.
+[**Consulter le code de locomotion**](Software/Moteurs.cpp) · [Voir la configuration matérielle](Software/Config.h)
 
-Cette séparation permet de travailler sur les **actionneurs**, la **locomotion** et la **stratégie** sans concentrer toutes les fonctions dans un seul fichier.
+## 3. Capteurs, actionneurs et stratégie du robot principal
 
-### 4. Organisation du firmware C++
+Au-delà de la base roulante, le robot devait **interagir avec les éléments du terrain**.
 
-Le programme s'appuie sur des modules `.cpp` et `.h`, et sur un fichier [`Config.h`](Software/Config.h) regroupant les broches, les dimensions du robot, la résolution des encodeurs, les vitesses et les gains du régulateur.
-
-L'objectif de cette architecture est de **séparer la configuration matérielle, les fonctions bas niveau et les actions de haut niveau** : un aspect important du développement de logiciels embarqués maintenables.
-
-## Mon rôle dans le projet
-
-Dans ce projet réalisé en équipe, ma contribution a porté sur la **programmation du robot en C/C++**, en particulier l'**asservissement de la base roulante par PID et encodeurs**, la **gestion des capteurs**, la **structuration modulaire du logiciel** et l'**enchaînement des déplacements et des actions**.
-
-Ce projet m'a permis de travailler à l'interface de plusieurs disciplines : **développement embarqué, automatique, électronique des capteurs et actionneurs, intégration mécanique et robotique mobile**.
-
-## Structure du dépôt
-
-| Fichier | Fonction |
+| Sous-système | Principe et réalisation |
 | --- | --- |
-| [`Programmation_robot.ino`](Software/Programmation_robot.ino) | Programme principal et chronologie des actions |
-| [`Moteurs.cpp`](Software/Moteurs.cpp) | Encodeurs, déplacements, PID et commande des moteurs |
-| [`Capteurs.cpp`](Software/Capteurs.cpp) | Mesure ultrasonique et détection de proximité |
-| [`Gradin.cpp`](Software/Gradin.cpp) | Parcours et séquences de positionnement |
-| [`Servos.cpp`](Software/Servos.cpp) | Commande des servomoteurs |
-| [`Electroaimant.cpp`](Software/Electroaimant.cpp) | Commande des électroaimants |
-| [`TFT.cpp`](Software/TFT.cpp) | Affichage de l'interface sur écran TFT |
-| [`Config.h`](Software/Config.h) | Brochage, paramètres mécaniques et réglages |
+| **Capteurs ultrasoniques** | [`Capteurs.cpp`](Software/Capteurs.cpp) : mesure de distance par temps d'écho et détection de proximité avec des HC-SR04 |
+| **Servomoteurs** | [`Servos.cpp`](Software/Servos.cpp) : séquence de déploiement de la banderole |
+| **Électroaimants** | [`Electroaimant.cpp`](Software/Electroaimant.cpp) : commande de sorties pour saisir ou relâcher les éléments métalliques |
+| **Déplacements de mission** | [`Gradin.cpp`](Software/Gradin.cpp) : enchaînement des mouvements vers les zones de construction, de fosse et de scène |
+| **Affichage** | [`TFT.cpp`](Software/TFT.cpp) : interface sur écran TFT ST7735, dont l'affichage d'une estimation de score |
 
-Les principaux outils et bibliothèques mobilisés sont **Arduino**, **PID_v1**, **Servo**, **Adafruit_GFX** et **Adafruit_ST7735**.
+La logique de match est coordonnée dans [`Programmation_robot.ino`](Software/Programmation_robot.ino). Le code distingue les fonctions bas niveau des séquences d'actions.
 
-## État du code et améliorations possibles
+**Précision sur les sources publiées :** le module de détection d'obstacles existe, mais son appel n'est pas intégré dans la boucle de déplacement de cette version du dépôt. Le code déposé ne contient pas non plus l'implémentation de `construire_gradin2()`, bien que cette fonction figure dans la séquence principale. Le rapport d'équipe décrit des essais et des versions utilisées pendant la compétition ; le dépôt ne reconstitue donc pas à lui seul toutes les versions testées sur le terrain.
 
-Le dépôt permet d'examiner l'**architecture de contrôle du robot** et ses différents modules C++. En revanche, il ne fournit ni résultat de tests de navigation ni rapport de compilation attestant que cette version est directement exécutable telle quelle.
+## 4. Les PAMIs : des mini-robots complémentaires
 
-Plusieurs points restent à finaliser ou documenter : **raccorder la détection d'obstacles à la commande de mouvement**, publier l'implémentation manquante de `construire_gradin2()`, revoir certaines définitions de broches dans `Config.h`, vérifier les dépendances de l'écran TFT et sécuriser l'arrêt en fin de match lorsque des mouvements bloquants sont en cours.
+Le projet ne se limitait pas au robot principal. Nous avons également travaillé sur des **PAMIs**, de petits robots destinés à participer aux actions du « show » en fin de match.
 
-Une **photo ou une courte vidéo du robot** permettrait également de relier plus directement les séquences du code aux actions sur le terrain. Le lien vers la photo de l'ancien README a été retiré car le fichier image n'est pas présent dans le dépôt.
+Le rapport d'équipe décrit leur **conception mécanique sous FreeCAD**, leur **assemblage et leur intégration électronique**, autour d'une structure compacte à plusieurs étages permettant d'accueillir :
+
+- la propulsion par **deux moteurs DC 6 V** et leur commande ;
+- une **carte Arduino Uno**, les batteries et l'électronique embarquée ;
+- un **capteur à ultrasons HC-SR04** pour la perception ;
+- des **commandes de démarrage et d'arrêt** ;
+- un **servomoteur FS90R et une hélice** destinés à créer une animation visible en fin de match.
+
+Les PAMIs ont été principalement pris en charge par un autre sous-groupe de notre équipe, mais ils faisaient partie de **la conception et de l'intégration de l'ensemble robotique** auxquelles j'ai participé.
+
+**À noter :** les fichiers du présent dépôt documentent surtout le **robot principal**. Les sources firmware spécifiques des PAMIs et les modèles mécaniques FreeCAD ne sont pas encore disponibles ici.
+
+## 5. Essais, compétition et retour d'expérience
+
+La Coupe de France a été l'occasion de **mettre les prototypes à l'épreuve**, de vérifier les choix de conception et de régler le matériel avant les matchs.
+
+Le rapport final de notre équipe décrit des essais sur le **déploiement de la banderole**, les **déplacements avec correction PID**, la **construction de gradins de niveau 1** et le fonctionnement des PAMIs. Il présente aussi les difficultés rencontrées : **fiabilité limitée du mécanisme des gradins**, **détection d'obstacles seulement partiellement fonctionnelle** et **consommation importante des électroaimants**.
+
+L'application Arduino publiée gère un **chronomètre interne avec un arrêt visé à 95 secondes** ; cette valeur est un choix visible dans le code. Le rapport de conception présente pour sa part un **cadre de match de 100 secondes**.
+
+### Photos et vidéo de la compétition
+
+Une **séquence vidéo enregistrée pendant la compétition** et une **photo prise lors des réglages du robot avant un match** pourront compléter cette présentation pour illustrer les essais et l'implication sur le terrain. Elles ne sont pas encore ajoutées au dépôt.
+
+## Organisation du code publié
+
+| Fichier | Rôle |
+| --- | --- |
+| [`Software/Programmation_robot.ino`](Software/Programmation_robot.ino) | Programme principal et enchaînement des actions |
+| [`Software/Moteurs.cpp`](Software/Moteurs.cpp) | Encodeurs, PID, déplacements et PWM |
+| [`Software/Capteurs.cpp`](Software/Capteurs.cpp) | Mesure ultrasonique et proximité |
+| [`Software/Gradin.cpp`](Software/Gradin.cpp) | Séquences de déplacement associées aux missions |
+| [`Software/Servos.cpp`](Software/Servos.cpp) | Servomoteurs et banderole |
+| [`Software/Electroaimant.cpp`](Software/Electroaimant.cpp) | Électroaimants |
+| [`Software/TFT.cpp`](Software/TFT.cpp) | Affichage TFT |
+| [`Software/Config.h`](Software/Config.h) | Broches, dimensions, encodeurs et gains PID |
+
+Le dépôt contient un **instantané du code du robot principal**, et non l'intégralité de l'ensemble mécanique, électronique et logiciel utilisé pendant les essais. Certaines définitions de broches et dépendances restent à vérifier pour reconstruire cette version telle quelle.
 
 ---
 
-**Projet d'équipe — Coupe de France de Robotique 2024–2025**  
-**Amadou Oury Diallo** — Instrumentation et systèmes embarqués, Sup Galilée · Université Sorbonne Paris Nord
+**Projet collectif — 6 étudiants, équipe CRIG2 de l'Institut Galilée, Coupe de France de Robotique 2025.**  
+**Amadou Oury Diallo** — Élève ingénieur en instrumentation et systèmes embarqués, Université Sorbonne Paris Nord.
