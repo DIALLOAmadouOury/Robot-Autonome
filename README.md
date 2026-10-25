@@ -107,7 +107,7 @@ Le défi était de faire fonctionner **un système complet**, et pas seulement d
 
 **Environnement :** Arduino / C++, FreeCAD, moteurs DC, encodeurs, PWM, PID_v1, HC-SR04, servomoteurs, électroaimants et écran TFT.
 
-**État du dépôt :** le code publié concerne principalement le robot principal. Certaines parties de cette version demandent encore à être complétées ou intégrées, notamment le raccordement de la détection d'obstacles à la boucle de déplacement et une fonction de construction de gradin. Les sources spécifiques des PAMIs ne sont pas encore incluses.
+**Contenu du dépôt :** les sources publiées documentent principalement le logiciel embarqué du robot principal. Les PAMIs et les travaux de conception sont également présentés à travers les visuels et les explications du projet.
 
 ---
 
