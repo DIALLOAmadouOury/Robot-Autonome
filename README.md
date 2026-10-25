@@ -8,7 +8,7 @@
 
 ## Le projet
 
-Pour la **Coupe de France de Robotique 2025 — « Robot Rock Tour »**, nous avons conçu et réalisé, en **équipe de six étudiants**, un **robot principal autonome** accompagné de **PAMIs** (Petits Actionneurs Mobiles Indépendants), sous les couleurs du **CRIG2, club de robotique de l'Institut Galilée**.
+Pour la **Coupe de France de Robotique 2025 — « Robot Rock Tour »**, nous avons conçu et réalisé, en **équipe de six étudiants**, un **robot principal autonome** accompagné de **PAMIs** (Petits Actionneurs Mobiles Indépendants), sous les couleurs du **CRIG1, club de robotique de l'Institut Galilée**.
 
 **Le défi :** créer un ensemble de robots capables d'effectuer des actions sur un terrain de compétition, sans intervention humaine pendant le match : **déployer une banderole, construire des gradins, se déplacer vers les zones de jeu et participer au spectacle final avec les PAMIs**.
 
